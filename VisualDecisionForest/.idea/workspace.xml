@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/VisualDecisionForest.py" description="training_set.append((test_region,0))" line="111" />
+    <bookmark url="file://$PROJECT_DIR$/VisualDecisionForest.py" description="training_set.append((test_region,0))" line="124" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c3ec451-0370-439c-a62f-dca3bf816077" name="Default" comment="" />
@@ -29,7 +29,7 @@
       <file leaf-file-name="VisualDecisionForestTest.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VisualDecisionForestTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1207">
+            <state line="43" column="0" selection-start="1096" selection-end="1096" vertical-scroll-proportion="-3.6538463" vertical-offset="551" max-vertical-offset="1343">
               <folding />
             </state>
           </provider>
@@ -38,7 +38,16 @@
       <file leaf-file-name="VisualDecisionForest.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/VisualDecisionForest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="0" selection-start="2355" selection-end="2355" vertical-scroll-proportion="0.5978495" vertical-offset="1133" max-vertical-offset="2652">
+            <state line="99" column="0" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.4259681" vertical-offset="1411" max-vertical-offset="2839">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="random.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Anaconda/Lib/random.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="239" column="0" selection-start="8893" selection-end="8893" vertical-scroll-proportion="0.0" vertical-offset="3789" max-vertical-offset="15368">
               <folding />
             </state>
           </provider>
@@ -361,7 +370,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -428,16 +437,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/random.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="239" column="0" selection-start="8893" selection-end="8893" vertical-scroll-proportion="0.0" vertical-offset="3789" max-vertical-offset="15368">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/VisualDecisionForestTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="757" selection-end="757" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1207">
+        <state line="43" column="0" selection-start="1096" selection-end="1096" vertical-scroll-proportion="-3.6538463" vertical-offset="551" max-vertical-offset="1343">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VisualDecisionForest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="0" selection-start="2355" selection-end="2355" vertical-scroll-proportion="0.5978495" vertical-offset="1133" max-vertical-offset="2652">
+        <state line="99" column="0" selection-start="2844" selection-end="2844" vertical-scroll-proportion="0.4259681" vertical-offset="1411" max-vertical-offset="2839">
           <folding />
         </state>
       </provider>

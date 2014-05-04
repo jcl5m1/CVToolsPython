@@ -15,7 +15,7 @@ tr = TrainingRegion()
 
 # mouse callback function
 def mouse_callback(event,x,y,flags,param):
-    global tr,ix,iy,drawing,mode, src_img, img
+    global tr,ix,iy,drawing,mode, src_img, img, randomized_pixel_order
 
     if event == cv2.EVENT_LBUTTONDOWN:
         drawing = True
@@ -27,23 +27,30 @@ def mouse_callback(event,x,y,flags,param):
 
     elif event == cv2.EVENT_LBUTTONUP:
         drawing = False
+        tr.set_p2((x, y))
+        randomized_pixel_order = generate_random_pixel_order(src_img, tr)
+        print tr.p1, tr.p2
 
 cv2.namedWindow("image", cv2.CV_WINDOW_AUTOSIZE)
 cv2.namedWindow("debug", cv2.CV_WINDOW_AUTOSIZE)
 cv2.namedWindow("class", cv2.CV_WINDOW_AUTOSIZE)
 
 src_img = cv2.imread('..//data//2048-screenshot.png')
-tr.set_using_radius(80,200,50)
-randomized_pixel_order = generate_random_pixel_order(src_img, tr.width()/2)
 img = src_img.copy()
+print img.shape
+
+tr.set_using_radius(70, 200, 50)
+tr.draw(img)
+
+randomized_pixel_order = generate_random_pixel_order(src_img, tr)
 
 class_img = np.zeros((img.shape[0],img.shape[1],1), np.uint8)
 tree = VisualDecisionTree()
 debug_img = tree.train(src_img, tr, randomized_pixel_order)
 
 cv2.moveWindow("image", 0, 0)
-cv2.moveWindow("debug", src_img.shape[0], 0)
-cv2.moveWindow("class", src_img.shape[0]*2, 0)
+cv2.moveWindow("debug", src_img.shape[1], 0)
+cv2.moveWindow("class", src_img.shape[1]*2, 0)
 
 cv2.setMouseCallback('image', mouse_callback)
 
@@ -54,6 +61,7 @@ while True:
     if drawing:
         img = src_img.copy()
         tr.draw(img)
+#    if pixel_index < 5000:
     if pixel_index < len(randomized_pixel_order):
         tree.classifyImgRandomSubsample(src_img, class_img, randomized_pixel_order, pixel_index, pixels_per_loop)
         pixel_index += pixels_per_loop

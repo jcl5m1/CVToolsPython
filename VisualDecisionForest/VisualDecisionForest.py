@@ -7,14 +7,11 @@ from random import *
 from math import *
 import collections
 
-def generate_random_pixel_order(img, margin):
+def generate_random_pixel_order(img, region):
     pixel_order = {}
 
-    if margin < 0:
-        raise ValueError('Error: negative margin')
-
-    for c in range(margin,img.shape[0]-margin):
-        for r in range(margin,img.shape[1]-margin):
+    for c in range(region.width()/2,img.shape[1]-region.width()/2):
+        for r in range(region.height()/2,img.shape[0]-region.height()/2):
             pixel_order[uniform(0.0,1.0)] = [c,r]
     od = collections.OrderedDict(sorted(pixel_order.items()))
     pixel_array = []
@@ -47,9 +44,23 @@ class TrainingRegion:
         self.center = ((p1[0] +p2[0])/2, (p1[1] +p2[1])/2)
 
     def set_using_radius(self, x, y, r):
-        self.center = (x,y)
+        self.center = (x, y)
         self.p1 = (x-r, y-r)
         self.p2 = (x+r, y+r)
+
+    def copy(self):
+        region = TrainingRegion()
+        region.p1 = self.p1
+        region.p2 = self.p2
+        region.center = self.center
+        return region
+
+    def recenter(self, x, y):
+        dx = x-self.center[0]
+        dy = y-self.center[1]
+        self.center = (self.center[0] + dx, self.center[1] + dy)
+        self.p1 = (self.p1[0] + dx, self.p1[1] + dy)
+        self.p2 = (self.p2[0] + dx, self.p2[1] + dy)
 
     def is_equal(self, region):
         if cmp(self.p1, region.p1) != 0:
@@ -62,6 +73,8 @@ class TrainingRegion:
         self.set((self.p1[0] + x, self.p1[1] + y),(self.p2[0] + x, self.p2[1] + y))
 
     def width(self):
+        if int(fabs(self.p1[0]-self.p2[0])) <= 0:
+            raise ValueError('danger width is zero', self.p1,self.p2)
         return int(fabs(self.p1[0]-self.p2[0]))
 
     def height(self):
@@ -81,13 +94,13 @@ class PixelSampleTest:
         self.v = 0
 
     def randomize(self, img, region):
-        self.x = randint(-region.width()/2, region.width()/2)
-        self.y = randint(-region.height()/2, region.height()/2)
+        self.x = randint(-region.width()/2, region.width()/2-1)
+        self.y = randint(-region.height()/2, region.height()/2-1)
         self.v = img[region.center[1] + self.y, region.center[0] + self.x ]
 
-    def evaluate(self, img, center):
-        return (img[center[1] + self.y,center[0] + self.x] == self.v).all()
-#        return (img[center[0] + self.x, center[1] + self.y] == self.v).all()
+    def evaluate(self, img, sample_pos):
+        return img[sample_pos[1] + self.y, sample_pos[0] + self.x][0] == self.v[0]
+#        return (img[sample_pos[1] + self.y, sample_pos[0] + self.x] == self.v).all()
 
 class VisualDecisionTree:
     left, right, test, best_test, data = None, None, None, None, 0
@@ -105,7 +118,7 @@ class VisualDecisionTree:
         self.test = PixelSampleTest()
         self.test.randomize(img, region)
 
-        training_size = 100
+        training_size = 20
         training_set = [(region, 1)]
 
         index = 0
@@ -115,13 +128,11 @@ class VisualDecisionTree:
             x, y = pixel_order[index]
             index += 1
 
-            #only add training examples that are passing the test
-            if self.test.evaluate(img, (x, y)):
-                test_region = TrainingRegion()
-                test_region.set_using_radius(x,y,region.width()/2)
-#                test_region.set((y-region.height()/2,x-region.width()/2), ( y + region.height()/2,x + region.width()/2))
-                if not region.is_equal(test_region):
-                    training_set.append((test_region, 0))
+            test_region = region.copy()
+            test_region.recenter(x,y)
+
+            if not region.is_equal(test_region):
+                training_set.append((test_region, 0))
 
         for t in training_set:
             if t[1] == 1:
@@ -134,8 +145,8 @@ class VisualDecisionTree:
         return debug_img
 
     def classifyImg(self, src_img, dst_img, margin):
-        for c in range(margin,src_img.shape[0]-margin):
-            for r in range(margin,src_img.shape[1] - margin):
+        for c in range(margin,src_img.shape[1]-margin):
+            for r in range(margin,src_img.shape[0] - margin):
                 dst_img[c, r] = self.classify(src_img, (c, r))
 
     def classifyImgRandomSubsample(self, src_img, dst_img, pixel_order, start, count):
