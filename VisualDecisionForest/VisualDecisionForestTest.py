@@ -33,32 +33,31 @@ cv2.namedWindow("debug", cv2.CV_WINDOW_AUTOSIZE)
 cv2.namedWindow("class", cv2.CV_WINDOW_AUTOSIZE)
 
 src_img = cv2.imread('..//data//2048-screenshot.png')
+randomized_pixel_order = generate_random_pixel_order(src_img, tr.width()/2)
 img = src_img.copy()
+
 class_img = np.zeros((img.shape[0],img.shape[1],1), np.uint8)
 
 tree = VisualDecisionTree()
 
-tr.set((20, 20), (120,120))
+tr.set((20, 20), (120, 120))
 tr.draw(img)
+debug_img = tree.train(src_img, tr, randomized_pixel_order)
 
-debug_img = tree.train(src_img, tr)
+cv2.moveWindow("image", 0, 0)
+cv2.moveWindow("debug", src_img.shape[0], 0)
+cv2.moveWindow("class", src_img.shape[0]*2, 0)
 
-cv2.moveWindow("image", 0,0)
-cv2.moveWindow("debug", src_img.shape[0],0)
-cv2.moveWindow("class", src_img.shape[0]*2,0)
-
-cv2.setMouseCallback('image',mouse_callback)
-
-randomized_pixel_order = generate_random_pixel_order(src_img, tr.width()/2)
+cv2.setMouseCallback('image', mouse_callback)
 
 pixel_index = 1
 pixels_per_loop = 5000
 
-while(1):
+while True:
     if drawing:
         img = src_img.copy()
         tr.draw(img)
-    if(pixel_index < len(randomized_pixel_order)):
+    if pixel_index < len(randomized_pixel_order):
         tree.classifyImgRandomSubsample(src_img, class_img, tr.width()/2, randomized_pixel_order, pixel_index, pixels_per_loop)
         pixel_index += pixels_per_loop
     cv2.imshow('image', img)

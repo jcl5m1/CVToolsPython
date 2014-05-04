@@ -83,24 +83,37 @@ class VisualDecisionTree:
     left, right, test, best_test, data = None, None, None, None, 0
     def __init__(self):
         self.left = None
-        self.Right = None
+        self.right = None
         self.test = None
         self.data = 0
 
-    def train(self, img, region, depth = 5):
+    def train(self, img, region, pixel_order, depth = 5):
         debug_img = img.copy()
         #select a few negative random regions from the image as training set
 
-        training_size = 20
-        training_set = [(region,1)]
+        #randomize pixel test
+        self.test = PixelSampleTest()
+        self.test.randomize(img, region)
 
-        for n in range(training_size):
-            test_region = TrainingRegion()
-            x = randint(0,img.shape[0] - region.width())
-            y = randint(0,img.shape[1] - region.height())
-            test_region.set((x,y),(x + region.width(), y + region.height()))
-            if not region.is_equal(test_region):
-                training_set.append((test_region,0))
+        training_size = 20
+        training_set = [(region, 1)]
+
+        index = 0
+        while False:
+#        while len(training_set) < training_size:
+            if index > 20:
+                break
+            if index >= len(pixel_order):
+                break
+            x, y = pixel_order[index]
+            index += 1
+
+            #only add training examples that are passing the test
+            if self.test.evaluate(img, (x, y)):
+                test_region = TrainingRegion()
+                test_region.set((x-region.width()/2, y-region.height()/2), (x + region.width()/2, y + region.height()/2))
+                if not region.is_equal(test_region):
+                    training_set.append((test_region, 0))
 
         for t in training_set:
             if t[1] == 1:
@@ -108,9 +121,6 @@ class VisualDecisionTree:
             if t[1] == 0:
                 t[0].draw(debug_img, (0, 0, 255))
 
-        #randomize pixel test
-        self.test = PixelSampleTest()
-        self.test.randomize(img, region)
 
         #compute information gain
         #iterate a for a while for best test
@@ -119,18 +129,18 @@ class VisualDecisionTree:
     def classifyImg(self, src_img, dst_img, margin):
         for c in range(margin,src_img.shape[0]-margin):
             for r in range(margin,src_img.shape[1] - margin):
-                dst_img[c,r] = self.classify(src_img,(c,r))
+                dst_img[c, r] = self.classify(src_img, (c, r))
 
     def classifyImgRandomSubsample(self, src_img, dst_img, margin, order, start, count):
         stop = start+count
         if stop >= len(order):
             stop = len(order)-1
         for n in range(start, stop):
-            c,r = order[n]
-            dst_img[c,r] = self.classify(src_img,(c,r))
+            c, r = order[n]
+            dst_img[c, r] = self.classify(src_img, (c, r))
 
     def classify(self, img, p):
-        if self.test == None:
+        if self.test is None:
             return randint(0,255)
         else:
             if self.test.evaluate(img, p):
