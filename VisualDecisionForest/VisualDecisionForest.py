@@ -9,6 +9,10 @@ import collections
 
 def generate_random_pixel_order(img, margin):
     pixel_order = {}
+
+    if margin < 0:
+        raise ValueError('Error: negative margin')
+
     for c in range(margin,img.shape[0]-margin):
         for r in range(margin,img.shape[1]-margin):
             pixel_order[uniform(0.0,1.0)] = [c,r]
@@ -42,6 +46,11 @@ class TrainingRegion:
         self.p2 = p2
         self.center = ((p1[0] +p2[0])/2, (p1[1] +p2[1])/2)
 
+    def set_using_radius(self, x, y, r):
+        self.center = (x,y)
+        self.p1 = (x-r, y-r)
+        self.p2 = (x+r, y+r)
+
     def is_equal(self, region):
         if cmp(self.p1, region.p1) != 0:
             return False
@@ -58,7 +67,7 @@ class TrainingRegion:
     def height(self):
         return int(fabs(self.p1[1]-self.p2[1]))
 
-    def draw(self, img, color = (0, 0, 255)):
+    def draw(self, img, color=(0, 0, 255)):
         cross_size = 5
         thickness = 1
         cv2.rectangle(img, self.p1, self.p2, color, thickness)
@@ -72,12 +81,13 @@ class PixelSampleTest:
         self.v = 0
 
     def randomize(self, img, region):
-        self.x = randint(-region.width()/2, region.width()/2-2)
-        self.y = randint(-region.height()/2, region.height()/2-2)
-        self.v = img[region.center[0] + self.x, region.center[1] + self.y]
+        self.x = randint(-region.width()/2, region.width()/2)
+        self.y = randint(-region.height()/2, region.height()/2)
+        self.v = img[region.center[1] + self.y, region.center[0] + self.x ]
 
     def evaluate(self, img, center):
-        return (img[center[0] + self.x, center[1] + self.y] == self.v).all()
+        return (img[center[1] + self.y,center[0] + self.x] == self.v).all()
+#        return (img[center[0] + self.x, center[1] + self.y] == self.v).all()
 
 class VisualDecisionTree:
     left, right, test, best_test, data = None, None, None, None, 0
@@ -95,14 +105,11 @@ class VisualDecisionTree:
         self.test = PixelSampleTest()
         self.test.randomize(img, region)
 
-        training_size = 20
+        training_size = 100
         training_set = [(region, 1)]
 
         index = 0
-        while False:
-#        while len(training_set) < training_size:
-            if index > 20:
-                break
+        while len(training_set) < training_size:
             if index >= len(pixel_order):
                 break
             x, y = pixel_order[index]
@@ -111,7 +118,8 @@ class VisualDecisionTree:
             #only add training examples that are passing the test
             if self.test.evaluate(img, (x, y)):
                 test_region = TrainingRegion()
-                test_region.set((x-region.width()/2, y-region.height()/2), (x + region.width()/2, y + region.height()/2))
+                test_region.set_using_radius(x,y,region.width()/2)
+#                test_region.set((y-region.height()/2,x-region.width()/2), ( y + region.height()/2,x + region.width()/2))
                 if not region.is_equal(test_region):
                     training_set.append((test_region, 0))
 
@@ -120,7 +128,6 @@ class VisualDecisionTree:
                 t[0].draw(debug_img, (0, 255, 0))
             if t[1] == 0:
                 t[0].draw(debug_img, (0, 0, 255))
-
 
         #compute information gain
         #iterate a for a while for best test
@@ -131,13 +138,13 @@ class VisualDecisionTree:
             for r in range(margin,src_img.shape[1] - margin):
                 dst_img[c, r] = self.classify(src_img, (c, r))
 
-    def classifyImgRandomSubsample(self, src_img, dst_img, margin, order, start, count):
+    def classifyImgRandomSubsample(self, src_img, dst_img, pixel_order, start, count):
         stop = start+count
-        if stop >= len(order):
-            stop = len(order)-1
+        if stop >= len(pixel_order):
+            stop = len(pixel_order)-1
         for n in range(start, stop):
-            c, r = order[n]
-            dst_img[c, r] = self.classify(src_img, (c, r))
+            c, r = pixel_order[n]
+            dst_img[r, c] = self.classify(src_img, (c, r))
 
     def classify(self, img, p):
         if self.test is None:
