@@ -7,84 +7,9 @@ from random import *
 from math import *
 import collections
 
-def generate_random_pixel_order(img, region):
-    pixel_order = {}
+from TrainingRegion import *
 
-    for c in range(region.width()/2,img.shape[1]-region.width()/2):
-        for r in range(region.height()/2,img.shape[0]-region.height()/2):
-            pixel_order[uniform(0.0,1.0)] = [c,r]
-    od = collections.OrderedDict(sorted(pixel_order.items()))
-    pixel_array = []
-    for k, v in od.iteritems():
-        pixel_array.append(v)
-    return pixel_array
 
-def cross_hair(img, p, size, color, thickness = 1):
-    p1 = (p[0], p[1] + size)
-    p2 = (p[0], p[1] - size)
-    cv2.line(img, p1,p2, color, thickness)
-    p1 = (p[0] + size, p[1])
-    p2 = (p[0] - size, p[1])
-    cv2.line(img, p1,p2, color, thickness)
-
-class TrainingRegion:
-    p1 = (0,0)
-    p2 = (0,0)
-    center = (0,0)
-
-    def __init__(self):
-        self.set((0, 0), (0, 0))
-
-    def set_p2(self, p2):
-        self.set(self.p1, p2)
-
-    def set(self, p1, p2):
-        self.p1 = p1
-        self.p2 = p2
-        self.center = ((p1[0] +p2[0])/2, (p1[1] +p2[1])/2)
-
-    def set_using_radius(self, x, y, r):
-        self.center = (x, y)
-        self.p1 = (x-r, y-r)
-        self.p2 = (x+r, y+r)
-
-    def copy(self):
-        region = TrainingRegion()
-        region.p1 = self.p1
-        region.p2 = self.p2
-        region.center = self.center
-        return region
-
-    def recenter(self, x, y):
-        dx = x-self.center[0]
-        dy = y-self.center[1]
-        self.center = (self.center[0] + dx, self.center[1] + dy)
-        self.p1 = (self.p1[0] + dx, self.p1[1] + dy)
-        self.p2 = (self.p2[0] + dx, self.p2[1] + dy)
-
-    def is_equal(self, region):
-        if cmp(self.p1, region.p1) != 0:
-            return False
-        if cmp(self.p2, region.p2) != 0:
-            return False
-        return True
-
-    def offset(self, x, y):
-        self.set((self.p1[0] + x, self.p1[1] + y),(self.p2[0] + x, self.p2[1] + y))
-
-    def width(self):
-        if int(fabs(self.p1[0]-self.p2[0])) <= 0:
-            raise ValueError('danger width is zero', self.p1,self.p2)
-        return int(fabs(self.p1[0]-self.p2[0]))
-
-    def height(self):
-        return int(fabs(self.p1[1]-self.p2[1]))
-
-    def draw(self, img, color=(0, 0, 255)):
-        cross_size = 5
-        thickness = 1
-        cv2.rectangle(img, self.p1, self.p2, color, thickness)
-        cross_hair(img, self.center,cross_size, color, thickness)
 
 class PixelSampleTest:
     x,y,v = 0, 0, 0
