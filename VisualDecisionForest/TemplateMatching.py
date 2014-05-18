@@ -104,6 +104,18 @@ def tap_device(x,y):
     print cmd
     os.system(cmd)
 
+def tap_device_ics(x,y):
+    os.system("adb shell sendevent /dev/input/event1 0003 0039 000000a9")
+    os.system("adb shell sendevent /dev/input/event1 0003 0035 000002f0")
+    os.system("adb shell sendevent /dev/input/event1 0003 0036 00000530")
+    os.system("adb shell sendevent /dev/input/event1 0003 003a 00000038")
+    os.system("adb shell sendevent /dev/input/event1 0003 0032 00000005")
+    os.system("adb shell sendevent /dev/input/event1 0003 0039 00000000")
+    os.system("adb shell sendevent /dev/input/event1 0000 0000 00000000")
+    os.system("adb shell sendevent /dev/input/event1 0003 0039 ffffffff")
+    os.system("adb shell sendevent /dev/input/event1 0000 0000 00000000")
+
+
 cv2.namedWindow("image", cv2.CV_WINDOW_AUTOSIZE)
 
 #directory_prefix = "..//data//2048//"
@@ -121,12 +133,23 @@ src_img = cv2.imread(directory_prefix + 'screenshots/screenshot.png')
 src_img = cv2.resize(src_img, (0,0), fx=1.0/downsize, fy=1.0/downsize)
 img = src_img.copy()
 
+
+#for x in range(100,1180,200):
+#    for y in range(100,620,200):
+#tap_device(440,360)
+
+#exit()
+
 while True:
     #live image ----------------
     do_live = True
     if pause == False:
         if do_live:
             src_img = grab_screenshot_from_device()
+        if src_img ==  None:
+            print "Screenshot capture failed"
+            continue
+        print src_img.shape
         src_img = cv2.resize(src_img, (0,0), fx=1.0/downsize, fy=1.0/downsize)
         img = src_img.copy()
 
@@ -134,7 +157,7 @@ while True:
         for target_id in range(0,len(targets)):
             matches = template_match(targets[target_id], src_img,match_tolerance, img)
             for m in matches:
-                tap_device(m[1]*downsize, 1080-m[0]*downsize) #clans puts 0,0, in upper right with x downwards
+                tap_device(m[1]*downsize, (src_img.shape[1]-m[0])*downsize) #clans puts 0,0, in upper right with x downwards
                 cv2.circle(img,(m[0], m[1]),20,(0,255,255),5)
                 break #only do one per type
 
