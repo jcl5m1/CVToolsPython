@@ -44,10 +44,28 @@
       <file leaf-file-name="GridTest.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GridTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="1" selection-start="4094" selection-end="4094" vertical-scroll-proportion="0.40265486" vertical-offset="1753" max-vertical-offset="2325">
+            <state line="20" column="40" selection-start="590" selection-end="590" vertical-scroll-proportion="0.67164177" vertical-offset="75" max-vertical-offset="2325">
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="animation.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/animation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="493" column="0" selection-start="20316" selection-end="20316" vertical-scroll-proportion="0.0" vertical-offset="6948" max-vertical-offset="7425">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="robust_covariance.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/sklearn/covariance/robust_covariance.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="584" column="0" selection-start="24548" selection-end="24548" vertical-scroll-proportion="0.0" vertical-offset="8481" max-vertical-offset="10200">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,7 +151,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="editor.preferences.completion" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -371,7 +389,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32756326" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48335552" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -458,9 +476,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/sklearn/covariance/robust_covariance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="584" column="0" selection-start="24548" selection-end="24548" vertical-scroll-proportion="0.0" vertical-offset="8481" max-vertical-offset="10200">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/animation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="493" column="0" selection-start="20316" selection-end="20316" vertical-scroll-proportion="0.0" vertical-offset="6948" max-vertical-offset="7425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/GridTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="1" selection-start="4094" selection-end="4094" vertical-scroll-proportion="0.40265486" vertical-offset="1753" max-vertical-offset="2325">
+        <state line="20" column="40" selection-start="590" selection-end="590" vertical-scroll-proportion="0.67164177" vertical-offset="75" max-vertical-offset="2325">
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

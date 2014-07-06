@@ -7,20 +7,19 @@ import sys
 from matplotlib import animation
 import matplotlib
 from matplotlib import collections  as mc
+from sklearn.covariance import MinCovDet
 
 import matplotlib.animation as animation
 
-def mean_var(data):
-    mean = np.mean(data)
-    c = data-mean
-    var = np.dot(c,c)/data.size
-    return mean, var
 
-def angular_mean_var(data):
-    cosx = [math.cos(x) for x in data]
-    sinx = [math.sin(x) for x in data]
-    mean = math.atan2(np.mean(sinx), np.mean(cosx))
-    return mean
+def angular_MCD(data):
+    unit_circle = np.zeros((len(data), 2))
+    unit_circle[:,0] = [math.cos(x) for x in data]
+    unit_circle[:,1] = [math.sin(x) for x in data]
+    S = MinCovDet().fit(unit_circle)
+    theta = math.atan2(S.location_[1], S.location_[0])
+    norm = np.linalg.norm(S.covariance_)
+    return theta, norm
 
 
 def closest_point(points, index):
@@ -80,8 +79,9 @@ class Grid:
             a = math.atan2((self.points[id1, 1] - self.points[id2, 1]),(self.points[id1,0] - self.points[id2,0]))
             self.angles[id1] = 4*a # because we are repeating every pi/2, compress the angle space by 4x
             self.lengths[id1] = np.linalg.norm(self.points[id1] - self.points[id2])
-        self.angle = angular_mean_var(self.angles)
-        self.length = mean_var(self.lengths)
+        self.angle = angular_MCD(self.angles)
+        S = MinCovDet().fit(self.lengths.reshape((len(self.lengths),1)))
+        self.length = S.location_, S.covariance_
 
 
 grid_dim = 10
@@ -129,15 +129,15 @@ def animate(i):
     data.set_data(grid.points[:, 0], grid.points[:, 1])
 #    line.set_data(grid.linedata[:, 0], grid.linedata[:, 1])
 
-    mean_angle_data.center = (math.cos(grid.angle), math.sin(grid.angle))
+    mean_angle_data.center = (math.cos(grid.angle[0]), math.sin(grid.angle[0]))
+    mean_angle_data.radius = grid.angle[1]+.1
     angle_data.set_data([math.cos(x) for x in grid.angles], [math.sin(x) for x in grid.angles])
 
     length_data.set_data([0], grid.lengths)
     mean_length_data.center = (0,grid.length[0])
-    mean_length_data.radius = math.sqrt(grid.length[1])
+    mean_length_data.radius = math.sqrt(grid.length[1])+.1
 
-
-    rotated_points = rotate(grid.points, grid.angle/4)
+    rotated_points = rotate(grid.points, grid.angle[0]/4)
     data2.set_data(rotated_points[:,0], rotated_points[:,1])
 
     return
