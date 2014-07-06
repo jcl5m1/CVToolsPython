@@ -18,8 +18,8 @@ def angular_MCD(data):
     unit_circle[:,1] = [math.sin(x) for x in data]
     S = MinCovDet().fit(unit_circle)
     theta = math.atan2(S.location_[1], S.location_[0])
-    norm = np.linalg.norm(S.covariance_)
-    return theta, norm
+    det = np.linalg.det(S.covariance_)
+    return theta, det
 
 
 def closest_point(points, index):
