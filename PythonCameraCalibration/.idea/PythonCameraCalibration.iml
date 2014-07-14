@@ -5,6 +5,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="VisualDecisionForest" />
+    <orderEntry type="module" module-name="RandomDotCorrespondence" />
   </component>
 </module>
 

@@ -23,58 +23,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="playback.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/playback.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="10" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1950">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transformations.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/transformations.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="0" selection-start="1719" selection-end="1719" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="28185">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GridTest.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GridTest.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GridTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="589" selection-end="589" vertical-scroll-proportion="0.7164179" vertical-offset="75" max-vertical-offset="2325">
+            <state line="12" column="0" selection-start="277" selection-end="635" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3978">
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="animation.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/animation.py">
+      <file leaf-file-name="transformations.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../common/transformations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="493" column="0" selection-start="20316" selection-end="20316" vertical-scroll-proportion="0.0" vertical-offset="6948" max-vertical-offset="7425">
+            <state line="422" column="45" selection-start="15762" selection-end="15762" vertical-scroll-proportion="-6.5384617" vertical-offset="6936" max-vertical-offset="31875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="robust_covariance.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Python/2.7/site-packages/sklearn/covariance/robust_covariance.py">
+      <file leaf-file-name="RandomDotCorrespondence.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../RandomDotCorrespondence/RandomDotCorrespondence.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="584" column="0" selection-start="24548" selection-end="24548" vertical-scroll-proportion="0.0" vertical-offset="8481" max-vertical-offset="10200">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lines.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/lines.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="375" column="0" selection-start="13064" selection-end="13064" vertical-scroll-proportion="0.0" vertical-offset="5211" max-vertical-offset="17700">
-              <folding />
+            <state line="176" column="18" selection-start="5610" selection-end="5610" vertical-scroll-proportion="0.45464602" vertical-offset="2581" max-vertical-offset="3536">
+              <folding>
+                <element signature="e#21#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,13 +67,15 @@
         <option value="$PROJECT_DIR$/../GitHub/CVToolsPython/VisualDecisionForest/VisualDecisionForestTest.py" />
         <option value="$PROJECT_DIR$/../GitHub/CVToolsPython/VisualDecisionForest/VisualDecisionForest.py" />
         <option value="$PROJECT_DIR$/GridTest.py" />
+        <option value="$PROJECT_DIR$/../RandomDotCorrespondence/RandomDotCorrespondence.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="820" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1216" />
+    <option name="height" value="1906" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -140,6 +117,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="RandomDotCorrespondence" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PythonCameraCalibration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="PythonCameraCalibration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -151,12 +138,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="FullScreen" value="false" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../common/transformations.py" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="SearchEverywhereHistory" value="" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -188,13 +177,31 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python" />
+      <option name="SDK_HOME" value="$USER_HOME$/Anaconda/python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PythonCameraCalibration" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GridTest.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="RandomDotCorrespondence" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../RandomDotCorrespondence" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RandomDotCorrespondence" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../RandomDotCorrespondence/RandomDotCorrespondence.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -339,15 +346,17 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.VisualDecisionForest" />
       <item index="1" class="java.lang.String" itemvalue="Python.VisualDecisionForestTest" />
       <item index="2" class="java.lang.String" itemvalue="Python.GridTest" />
+      <item index="3" class="java.lang.String" itemvalue="Python.RandomDotCorrespondence" />
     </list>
     <recent_temporary>
-      <list size="2">
+      <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Python.GridTest" />
-        <item index="1" class="java.lang.String" itemvalue="Python.VisualDecisionForestTest" />
+        <item index="1" class="java.lang.String" itemvalue="Python.RandomDotCorrespondence" />
+        <item index="2" class="java.lang.String" itemvalue="Python.VisualDecisionForestTest" />
       </list>
     </recent_temporary>
   </component>
@@ -378,23 +387,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="820" extended-state="6" />
+    <frame x="-8" y="-8" width="1216" height="1906" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24936387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11388889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48335552" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48333332" sideWeight="0.1675" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48333332" sideWeight="0.8325" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -419,14 +428,60 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/playback.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="10" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1950">
+        <state line="32" column="10" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2210">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transformations.py">
+    <entry file="file://$PROJECT_DIR$/GridTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1719" selection-end="1719" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="28185">
+        <state line="186" column="0" selection-start="6659" selection-end="6659" vertical-scroll-proportion="0.0" vertical-offset="2662" max-vertical-offset="3553">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/artist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1298" column="0" selection-start="40231" selection-end="40231" vertical-scroll-proportion="0.0" vertical-offset="22066" max-vertical-offset="22406">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/figure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="913" column="0" selection-start="29638" selection-end="29638" vertical-scroll-proportion="0.0" vertical-offset="15521" max-vertical-offset="28509">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/covariance/empirical_covariance_.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="267" column="0" selection-start="8583" selection-end="8583" vertical-scroll-proportion="0.0" vertical-offset="4539" max-vertical-offset="4692">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playback.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="10" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="2210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GridTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="2635">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playback.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="10" selection-start="716" selection-end="716" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1950">
           <folding />
         </state>
       </provider>
@@ -435,7 +490,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="105" column="43" selection-start="2817" selection-end="2817" vertical-scroll-proportion="0.0" vertical-offset="1485" max-vertical-offset="2715">
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -462,39 +517,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transformations.py">
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/sklearn/covariance/empirical_covariance_.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1719" selection-end="1719" vertical-scroll-proportion="0.0" vertical-offset="5457" max-vertical-offset="31875">
+        <state line="267" column="0" selection-start="8583" selection-end="8583" vertical-scroll-proportion="0.0" vertical-offset="3669" max-vertical-offset="4573">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/lines.py">
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/artist.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="375" column="0" selection-start="13064" selection-end="13064" vertical-scroll-proportion="0.0" vertical-offset="5211" max-vertical-offset="17700">
+        <state line="1298" column="0" selection-start="40231" selection-end="40231" vertical-scroll-proportion="0.0" vertical-offset="21362" max-vertical-offset="22253">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/sklearn/covariance/robust_covariance.py">
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/figure.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="584" column="0" selection-start="24548" selection-end="24548" vertical-scroll-proportion="0.0" vertical-offset="8481" max-vertical-offset="10200">
+        <state line="913" column="0" selection-start="29638" selection-end="29638" vertical-scroll-proportion="0.0" vertical-offset="14693" max-vertical-offset="27982">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/animation.py">
+    <entry file="file://$PROJECT_DIR$/../common/transformations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="493" column="0" selection-start="20316" selection-end="20316" vertical-scroll-proportion="0.0" vertical-offset="6948" max-vertical-offset="7425">
+        <state line="422" column="45" selection-start="15762" selection-end="15762" vertical-scroll-proportion="-6.5384617" vertical-offset="6936" max-vertical-offset="31875">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GridTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="589" selection-end="589" vertical-scroll-proportion="0.7164179" vertical-offset="75" max-vertical-offset="2325">
+        <state line="12" column="0" selection-start="277" selection-end="635" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3978">
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/axes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1579" column="0" selection-start="56963" selection-end="56963" vertical-scroll-proportion="0.3329646" vertical-offset="26389" max-vertical-offset="159885">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda/Lib/site-packages/matplotlib/lines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="403" column="26" selection-start="13891" selection-end="13891" vertical-scroll-proportion="0.46460176" vertical-offset="6142" max-vertical-offset="21573">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../RandomDotCorrespondence/RandomDotCorrespondence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="18" selection-start="5610" selection-end="5610" vertical-scroll-proportion="0.45464602" vertical-offset="2581" max-vertical-offset="3536">
+          <folding>
+            <element signature="e#21#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
