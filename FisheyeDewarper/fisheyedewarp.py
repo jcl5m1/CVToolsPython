@@ -146,11 +146,10 @@ lut = 0
 lut_dim = 0
 dst_img = np.zeros((dst_height, dst_width, 3), np.uint8)
 
-#for dirname, dirnames, filenames in os.walk(image_path):
 for dirname, dirnames, filenames in os.walk(image_path):
-    # print path to all filenames.
     for filename in filenames:
         file = os.path.join(dirname, filename)
+
         print file
 
         img = cv2.imread(file)
@@ -166,8 +165,7 @@ for dirname, dirnames, filenames in os.walk(image_path):
         else:
             warpUsingLUT(img, dst_img, lut)
 
-        #cv2.imshow('image', img)
-        cv2.imshow('dest', dst_img)
+        cv2.imshow('OutputImage', dst_img)
 
         if save_ouput:
             output_file = file.replace(".JPG", postfix+".JPG")

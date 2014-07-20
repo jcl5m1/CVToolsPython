@@ -6,6 +6,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="VisualDecisionForest" />
     <orderEntry type="module" module-name="RandomDotCorrespondence" />
+    <orderEntry type="module" module-name="FisheyeDewarper" />
   </component>
 </module>
 
