@@ -86,6 +86,8 @@ def warpUsingLUT(src_img, dst_img, lut):
             index += 1
             dst_img[r, c, :] = src_img[address[0], address[1], :]
 
+
+#define command line arguments
 parser = argparse.ArgumentParser(description='Dewarp Circular Fisheye Image')
 parser.add_argument('directory', help='directory containing circular fisheye images')
 parser.add_argument('-postfix', help='post-fix to add to dewarped image filenames')
@@ -100,52 +102,60 @@ parser.add_argument('-src_cy', help='source image center y in percent (default:0
 
 args = parser.parse_args()
 
-image_path = args.directory
 
 #default values
-src_f = 970 #hand tuned for sigma circular fisheye
 dst_width = 1024
 dst_height = 1024
 dst_horz_fov = 2.6
-src_center = [0.5, 0.5] #hand selected to be image center, needs to be calibrated
-save_ouput = True
+save_output = True
 postfix = "_dewarp"
 dewarp_type = 'pinhole'
 
-if args.dst_w != None:
+#hand tuned for sigma circular fisheye at full res on Canon 70D
+src_f = 970
+#hand selected to be image center, should be calibrated
+src_center = [0.5, 0.5]
+
+
+#use command line arguments
+image_path = args.directory
+
+if args.dst_w is not None:
     dst_width = int(args.dst_w)
     dst_height = dst_width
-if args.dst_h != None:
+if args.dst_h is not None:
     dst_height = int(args.dst_h)
-if args.dst_fov != None:
+if args.dst_fov is not None:
     dst_horz_fov = float(args.dst_fov)
-if args.src_f != None:
+if args.src_f is not None:
     src_f = float(args.src_f)
-if args.src_cx != None:
+if args.src_cx is not None:
     src_center[0] = float(args.src_cx)
-if args.src_cy != None:
+if args.src_cy is not None:
     src_center[1] = float(args.src_cy)
-if args.postfix != None:
+if args.postfix is not None:
     postfix = args.postfix
-if args.dewarp != None:
+if args.dewarp is not None:
     dewarp_type = args.dewarp
 if args.dns:
-    save_ouput = False
+    save_output = False
 
-
+#print out state
 print "Loading images from:" + image_path
-print  "output image:" + str(dst_width) + ", " + str(dst_height)
-print  "output horz fov: " + str(dst_horz_fov)
-print  "source center: " + str(src_center)
-print  "source f: " + str(src_f)
-print  "save output: " + str(save_ouput)
-print  "postfix: " + postfix
-print  "dewarp: " + dewarp_type
+print "output image:" + str(dst_width) + ", " + str(dst_height)
+print "output horz fov: " + str(dst_horz_fov)
+print "source center: " + str(src_center)
+print "source f: " + str(src_f)
+print "save output: " + str(save_output)
+print "postfix: " + postfix
+print "dewarp: " + dewarp_type
 
 lut = 0
 lut_dim = 0
 dst_img = np.zeros((dst_height, dst_width, 3), np.uint8)
 
+
+#recursively go down directories
 for dirname, dirnames, filenames in os.walk(image_path):
     for filename in filenames:
         file = os.path.join(dirname, filename)
@@ -157,17 +167,19 @@ for dirname, dirnames, filenames in os.walk(image_path):
 
         dst_img.fill(0)
 
-        if (img.shape[:2] != lut_dim):
-            if(dewarp_type == 'pinhole'):
+        #reuse the LUT if the image size matches
+        if img.shape[:2] != lut_dim:
+            if dewarp_type == 'pinhole':
                 lut, lut_dim = pinhole_dewarp_LUT(img, dst_img, center, dst_horz_fov, src_f)
-            if(dewarp_type == 'cylindrical'):
+            if dewarp_type == 'cylindrical':
                 lut, lut_dim = cylindrical_dewarp(img, dst_img, center, dst_horz_fov, src_f)
         else:
             warpUsingLUT(img, dst_img, lut)
 
         cv2.imshow('OutputImage', dst_img)
 
-        if save_ouput:
+        #save if desired
+        if save_output:
             output_file = file.replace(".JPG", postfix+".JPG")
             print "Saving: " + output_file
             cv2.imwrite(output_file, dst_img)
