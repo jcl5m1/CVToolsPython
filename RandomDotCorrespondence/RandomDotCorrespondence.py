@@ -85,7 +85,7 @@ def randomizedTransform(points, t, fov):
     #homogenous coordinates
     for i in range(len(points)):
         points3D[i] = [points[i][0], points[i][1], 0, 1]
-
+    t = t/10.0
     theta = t/57.0
     phi = t/51.0
     rho = t/59.0
@@ -190,6 +190,40 @@ def generateClosestEdges(points, count):
 def triangleArea(a, b, c):
     return 0.5*math.fabs(a[0]*(b[1] - c[1])+b[0]*(c[1]-a[1])+c[0]*(a[1]-b[1]))
 
+def counterClockwiseSortQuad(quad_ids, points):
+
+    A = points[quad_ids[0]]
+    B = points[quad_ids[1]]
+    C = points[quad_ids[2]]
+    D = points[quad_ids[3]]
+
+    triangle_ABC = (A[1]-B[1])*C[0] + (B[0]-A[0])*C[1] + (A[0]*B[1]-B[0]*A[1])
+    triangle_ABD = (A[1]-B[1])*D[0] + (B[0]-A[0])*D[1] + (A[0]*B[1]-B[0]*A[1])
+    triangle_ACD = (A[1]-C[1])*D[0] + (C[0]-A[0])*D[1] + (A[0]*C[1]-C[0]*A[1])
+
+#    print triangle_ABC, triangle_ACD, triangle_ABD
+    print triangle_ABC + triangle_ACD
+
+    #   ABDC +-+
+    if (triangle_ABC > 0) and (triangle_ACD < 0) and (triangle_ABD > 0):
+        return [quad_ids[0], quad_ids[1], quad_ids[3], quad_ids[2]]
+    #   ACBD -++
+    if (triangle_ABC < 0) and (triangle_ACD > 0) and (triangle_ABD > 0):
+        return [quad_ids[0], quad_ids[2], quad_ids[1], quad_ids[3]]
+    #   ACDB +--
+    if (triangle_ABC > 0) and (triangle_ACD < 0) and (triangle_ABD < 0):
+        return [quad_ids[0], quad_ids[3], quad_ids[1], quad_ids[2]]
+    #   ADBC -+-
+    if (triangle_ABC < 0) and (triangle_ACD > 0) and (triangle_ABD < 0):
+        return [quad_ids[0], quad_ids[2], quad_ids[3], quad_ids[1]]
+    #   ADCB ---
+    if (triangle_ABC < 0) and (triangle_ACD < 0) and (triangle_ABD < 0):
+        return [quad_ids[0], quad_ids[3], quad_ids[2], quad_ids[1]]
+
+    #   ABCD +++
+    #something else happened, we don't know.
+    return quad_ids
+
 
 cid = fig.canvas.mpl_connect('button_press_event', onclick)
 
@@ -198,25 +232,49 @@ generateRandomGridPoints(points, 10)
 # animation function.  This is called sequentially
 def animate(t):
 
-    points[0] = [0, 0]
-    points[1] = [3, 0]
-    points[2] = [0, 3]
-    points[3] = [3, 3]
     transformed_points = randomizedTransform(points, t, .2)
     linedata, tri = generateDelaunyEdges(transformed_points)
 
+    simplex_id = 1
 
-    pa = [transformed_points[0], transformed_points[1], transformed_points[2], transformed_points[3]]
+#    print "*****************"
+    quad = []
+    sister_simplex = -1
+    feature_points = []
+    for p in tri.simplices[simplex_id]:
+        quad.append(p)
+
+    for n in tri.neighbors[simplex_id]:
+        if n == -1:  # no neighbor in this direction, skip
+            continue
+        for p in tri.simplices[n]: #for each point in neighbor triangle
+            if (p not in quad) and (len(quad) == 3): #if the point in new, add it
+                quad.append(p)
+                sister_simplex = n
+            if (p not in quad) and (len(quad) > 3): #add this point to the feature set
+                feature_points.append(p)
+
+    for n in tri.neighbors[sister_simplex]:
+        if n == -1:  # no neighbor in this direction, skip
+            continue
+        for p in tri.simplices[n]: #for each point in neighbor triangle
+            if (p not in quad) and (p not in feature_points): #add this point to the feature set
+                feature_points.append(p)
+
+
+
+#    print quad
+
+    quad = counterClockwiseSortQuad(quad, transformed_points)
+    pa = [transformed_points[quad[0]], transformed_points[quad[1]], transformed_points[quad[2]], transformed_points[quad[3]]]
     pa = np.reshape(pa, (4, 2))
     pb = np.array([[0, 0], [1, 0], [0, 1], [1, 1]])
 
     h = find_homography(pa, pb)
+#    print quad
+ #   print h
     b_points = apply_homography(h, transformed_points)
 
-
-#    print tri.simplices
-#    for i in range(len(tri.simplices)):
-#        print tri.neighbors[i]
 #    tri_transform = tri.transform[0]
 
  #   b_points = baycentricPoints(transformed_points, tri_transform)
@@ -250,12 +308,12 @@ def animate(t):
 #    text_data += str(area1/area2)
 
 #    area1 = triangleArea(points[nearest_set[0, 0]],points[nearest_set[0, 1]],points[nearest_set[1, 1]])
-#    point_text.set_text(text_data)
+    point_text.set_text(str(quad) + '\n' + str(feature_points) + '\n' + str(h))
 
 #    mouse_point_data.set_data(mouse_pos[0], mouse_pos[1])
 #    neighbor_mouse_point.set_data(mb_point[0][0], mb_point[0][1])
 
- #   point_edges.set_data(linedata[:, 0], linedata[:, 1])
+    point_edges.set_data(linedata[:, 0], linedata[:, 1])
     point_data.set_data(transformed_points[:, 0], transformed_points[:, 1])
 
     neighbor_data.set_data(b_points[:, 0], b_points[:, 1])
