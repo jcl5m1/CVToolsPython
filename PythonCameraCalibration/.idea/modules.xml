@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/../FisheyeDewarper/.idea/FisheyeDewarper.iml" filepath="$PROJECT_DIR$/../FisheyeDewarper/.idea/FisheyeDewarper.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PythonCameraCalibration.iml" filepath="$PROJECT_DIR$/.idea/PythonCameraCalibration.iml" />
       <module fileurl="file://$PROJECT_DIR$/../RandomDotCorrespondence/.idea/RandomDotCorrespondence.iml" filepath="$PROJECT_DIR$/../RandomDotCorrespondence/.idea/RandomDotCorrespondence.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../GitHub/CVToolsPython/VisualDecisionForest/.idea/VisualDecisionForest.iml" filepath="$PROJECT_DIR$/../GitHub/CVToolsPython/VisualDecisionForest/.idea/VisualDecisionForest.iml" />
     </modules>
   </component>
 </project>

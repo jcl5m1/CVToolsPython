@@ -3,6 +3,7 @@ import numpy as np
 import random
 import math
 import matplotlib
+matplotlib.use('Qt4Agg')
 #matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib import animation
@@ -17,7 +18,7 @@ from pylab import get_current_fig_manager
 
 plotsize = 5
 neighbor_count = 3
-point_count = 16
+point_count = 10
 points = np.zeros((point_count, 2))
 fig = plt.figure(figsize=(14, 7))
 dotplot = fig.add_subplot(121, aspect='equal', autoscale_on=False, xlim=(-plotsize, plotsize), ylim=(-plotsize, plotsize))
@@ -119,6 +120,17 @@ def onclick(event):
     if event.button == 1:
         mouse_pos = [event.xdata, event.ydata]
 
+def press(event):
+    global h, pause, step, simplex_id
+#    print('press', event.key)
+#    sys.stdout.flush()
+    if event.key==' ':
+        pause = not pause
+    if event.key=='.':
+        step = True
+    if event.key=='n':
+        simplex_id += 1
+
 def generateDelaunyEdges(points):
     tri = Delaunay(points)
 
@@ -190,6 +202,44 @@ def generateClosestEdges(points, count):
 def triangleArea(a, b, c):
     return 0.5*math.fabs(a[0]*(b[1] - c[1])+b[0]*(c[1]-a[1])+c[0]*(a[1]-b[1]))
 
+def CrossProductZ(a,b):
+    return a[0] * b[1] - a[1] * b[0];
+
+def TriangleOrientation(a,b,c):
+    v = CrossProductZ(a, b) + CrossProductZ(b, c) + CrossProductZ(c, a)
+    print v
+    return v
+
+def ClockwiseSortQuad(quad_ids, points):
+
+    a = points[quad_ids[0]]
+    b = points[quad_ids[1]]
+    c = points[quad_ids[2]]
+    d = points[quad_ids[3]]
+
+    if (TriangleOrientation(a, b, c) < 0.0):
+        if TriangleOrientation(a, c, d) < 0.0:
+            print "--"
+            return quad_ids
+        elif TriangleOrientation(a, b, d) < 0.0:
+            print "-+-"
+            return [quad_ids[0], quad_ids[1], quad_ids[3], quad_ids[2]]
+        else:
+            print "-++"
+            return [quad_ids[3], quad_ids[1], quad_ids[2], quad_ids[0]]
+
+    elif TriangleOrientation(a, c, d) < 0.0:
+        if TriangleOrientation(a, b, d) < 0.0:
+            print "+--"
+            return [quad_ids[0], quad_ids[2], quad_ids[1], quad_ids[3]]
+        else:
+            print "+-+"
+            return [quad_ids[1], quad_ids[0], quad_ids[2], quad_ids[3]]
+    else:
+        print "++"
+        return [quad_ids[2], quad_ids[1], quad_ids[0], quad_ids[3]]
+
+
 def counterClockwiseSortQuad(quad_ids, points):
 
     A = points[quad_ids[0]]
@@ -201,8 +251,8 @@ def counterClockwiseSortQuad(quad_ids, points):
     triangle_ABD = (A[1]-B[1])*D[0] + (B[0]-A[0])*D[1] + (A[0]*B[1]-B[0]*A[1])
     triangle_ACD = (A[1]-C[1])*D[0] + (C[0]-A[0])*D[1] + (A[0]*C[1]-C[0]*A[1])
 
-#    print triangle_ABC, triangle_ACD, triangle_ABD
-    print triangle_ABC + triangle_ACD
+    print triangle_ABC, triangle_ACD, triangle_ABD
+#    print triangle_ABC + triangle_ACD
 
     #   ABDC +-+
     if (triangle_ABC > 0) and (triangle_ACD < 0) and (triangle_ABD > 0):
@@ -226,18 +276,33 @@ def counterClockwiseSortQuad(quad_ids, points):
 
 
 cid = fig.canvas.mpl_connect('button_press_event', onclick)
+cid = fig.canvas.mpl_connect('key_press_event', press)
 
 generateRandomGridPoints(points, 10)
+h = []
+pause = False
+step = False
+time = 0
+simplex_id = 0
+curr_triangle = 0
 
 # animation function.  This is called sequentially
 def animate(t):
+    global h, time, pause, step, simplex_id
 
-    transformed_points = randomizedTransform(points, t, .2)
+    if pause and (step == False):
+        return
+
+    step = False
+
+    time = time +1
+
+    transformed_points = randomizedTransform(points, time, .2)
     linedata, tri = generateDelaunyEdges(transformed_points)
 
-    simplex_id = 1
+    simplex_id = simplex_id % len(tri.simplices)
 
-#    print "*****************"
+    print "*****************"
     quad = []
     sister_simplex = -1
     feature_points = []
@@ -265,51 +330,24 @@ def animate(t):
 
 #    print quad
 
-    quad = counterClockwiseSortQuad(quad, transformed_points)
+    quad = ClockwiseSortQuad(quad, transformed_points)
     pa = [transformed_points[quad[0]], transformed_points[quad[1]], transformed_points[quad[2]], transformed_points[quad[3]]]
     pa = np.reshape(pa, (4, 2))
-    pb = np.array([[0, 0], [1, 0], [0, 1], [1, 1]])
+    pb = np.array([[0, 0], [0, 1], [1, 1], [1, 0]])
+#    pb = np.array([[0, 0], [1, 0], [1, 1], [0, 1]])
+
 
     h = find_homography(pa, pb)
-#    print quad
- #   print h
     b_points = apply_homography(h, transformed_points)
 
-#    tri_transform = tri.transform[0]
-
- #   b_points = baycentricPoints(transformed_points, tri_transform)
-  #  mb_point = baycentricPoints([mouse_pos], tri_transform)
-
-
-#    linedata, closest_ids = generateClosestEdges(transformed_points, neighbor_count)
-
-#    dotplot.add_patch(plt.Line2D(linedata[:, 0], linedata[:, 1], color=someColors[t % 5]))
-#    dotplot.add_patch(plt.Circle(xy=[5,2], radius=1, color=someColors[t % 5]))
-#        dotplot.add_line(plt.Line2D([l[0][0],l[1][0]],[l[0][1],l[1][1]], color='k'))
-#    dotplot.add_line(plt.Line2D(linedata[:, 0], linedata[:, 1], color=someColors[t % 5]))
-
-#    text_data = ""
-#    n_edges = np.zeros((neighbor_count*3, 2))
-
-#    count = 0
-#    nearest_set = []
-#    for ids in closest_ids:
-#        if ids[0] == 0:
-#            nearest_set.append([ids[0], ids[1]])
-#            area1 = triangleArea(points[ids[0]], points[ids[1]])
-#            text_data += str(ids[0]) + " " + str(ids[1]) + " " + str(ids[2]) + "\n"
-#            n_edges[3*count] = [points[ids[0]][0], points[ids[0]][1]]
-#            n_edges[3*count+1] = [points[ids[1]][0], points[ids[1]][1]]
-#            n_edges[3*count+2] = [None, None]
-#            count += 1
-
-#    area1 = triangleArea(transformed_points[0], transformed_points[1], transformed_points[2])
-#    area2 = triangleArea(transformed_points[1], transformed_points[2], transformed_points[3])
-#    text_data += str(area1/area2)
+    print pa
+    print pb
+    print h
 
 #    area1 = triangleArea(points[nearest_set[0, 0]],points[nearest_set[0, 1]],points[nearest_set[1, 1]])
     point_text.set_text(str(quad) + '\n' + str(feature_points) + '\n' + str(h))
 
+    mouse_point_data.set_data(pa[:, 0], pa[:, 1])
 #    mouse_point_data.set_data(mouse_pos[0], mouse_pos[1])
 #    neighbor_mouse_point.set_data(mb_point[0][0], mb_point[0][1])
 
@@ -325,3 +363,6 @@ anim = animation.FuncAnimation(fig,  animate, frames=20000, interval=20, blit=Fa
 
 plt.show()
 
+cfm2=get_current_fig_manager().window
+cfm2.activateWindow()
+cfm2.raise_()
