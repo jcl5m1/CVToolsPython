@@ -7,6 +7,8 @@
     <orderEntry type="module" module-name="VisualDecisionForest" />
     <orderEntry type="module" module-name="RandomDotCorrespondence" />
     <orderEntry type="module" module-name="FisheyeDewarper" />
+    <orderEntry type="module" module-name="RicohTheta" />
+    <orderEntry type="module" module-name="common" />
   </component>
 </module>
 
