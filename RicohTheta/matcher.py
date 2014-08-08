@@ -54,6 +54,20 @@ def pinhole_from_cylindrical_dewarp(src_img, dst_img, src_center, dst_fov):
     return (src_h, src_w)
 
 
+def cartesian_to_cylindrical(src_img,x,y,z):
+
+    src_f = float(src_img.shape[0])/math.pi
+    d = math.sqrt(z*z + x*x)
+    if d == 0:
+        altitude = math.pi/2
+    else:
+        altitude = math.atan(y/d)
+    azimuth = math.atan2(x,z)
+    cx = src_f*azimuth + src_img.shape[1]/2
+    cy = -src_f*altitude + src_img.shape[0]/2
+
+    return cx,cy
+
 def drawMatches(img1, kp1, img2, kp2, matches, mask):
     color = (0,255,0)
     result_img = np.zeros((img1.shape[0]+img2.shape[0], img1.shape[1], 3), np.uint8)
@@ -111,16 +125,30 @@ img2_size = img1_big.shape
 img1_small = cv2.resize(img1_big, (img1_size[1]/downsample, img1_size[0]/downsample))
 img2_small = cv2.resize(img2_big, (img2_size[1]/downsample, img2_size[0]/downsample))
 
+if True:
+    dewarp_size = 400
+    dewarp_img1 = np.zeros((dewarp_size, dewarp_size, 3), np.uint8)
+    pinhole_from_cylindrical_dewarp(img1_small, dewarp_img1, (0,0), 2.0)
+    dewarp_img2 = np.zeros((dewarp_size, dewarp_size, 3), np.uint8)
+    pinhole_from_cylindrical_dewarp(img2_small, dewarp_img2, (-.20,0), 2.0)
+    img3 = ExtractAndMatch(dewarp_img1,dewarp_img2)
+else:
+    img3 = ExtractAndMatch(img1_small, img2_small)
 
-dewarp_size = 400
-dewarp_img1 = np.zeros((dewarp_size, dewarp_size, 3), np.uint8)
-pinhole_from_cylindrical_dewarp(img1_small, dewarp_img1, (0,0), 2.0)
-dewarp_img2 = np.zeros((dewarp_size, dewarp_size, 3), np.uint8)
-pinhole_from_cylindrical_dewarp(img2_small, dewarp_img2, (-.20,0), 2.0)
-
-
-#img3 = ExtractAndMatch(img1_small, img2_small)
-img3 = ExtractAndMatch(dewarp_img1,dewarp_img2)
+x_min = -1
+x_max = 20
+z_min = 5
+z_max = 25
+for pz in range(z_min,z_max):
+    for px in range(x_min,x_max):
+        x1,y1 = cartesian_to_cylindrical(img1_small,px,5,pz)
+        x2,y2 = cartesian_to_cylindrical(img1_small,px+1,5,pz)
+        cv2.line(img3,(int(x1),int(y1)),(int(x2),int(y2)),(0,0,255))
+for px in range(x_min,x_max):
+    for pz in range(z_min,z_max):
+        x1,y1 = cartesian_to_cylindrical(img1_small,px,5,pz)
+        x2,y2 = cartesian_to_cylindrical(img1_small,px,5,pz+1)
+        cv2.line(img3,(int(x1),int(y1)),(int(x2),int(y2)),(0,0,255))
 
 cv2.imshow("img3", img3)
 cv2.moveWindow("img3", 0, 0)
