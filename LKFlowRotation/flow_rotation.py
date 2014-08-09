@@ -6,15 +6,15 @@ Lucas-Kanade tracker
 
 Lucas-Kanade sparse optical flow demo. Uses goodFeaturesToTrack
 for track initialization and back-tracking for match verification
-between frames.
+between frames using webcam
 
 Usage
 -----
-lk_track.py [<video_source>]
-
+flow_rotation.py
 
 Keys
 ----
+r - reset accumulated rotation
 ESC - exit
 '''
 
@@ -142,7 +142,7 @@ feature_params = dict( maxCorners = 500,
                        minDistance = 7,
                        blockSize = 7 )
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH,640)
 cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT,480)
@@ -157,7 +157,6 @@ prev_gray = 0
 total_rot = 0
 while True:
     ret,frame = cap.read()
-    cv2.imshow('e2',frame)
 
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     vis = frame.copy()
@@ -186,7 +185,7 @@ while True:
         cv2.polylines(vis, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
         if len(curr_pts) > 4:
             d,Z, tform = procrustes(np.array(prev_pts), np.array(curr_pts))
-            rot = math.atan2(tform['rotation'][0,1] , tform['rotation'][0,0])
+            rot = math.atan2(tform['rotation'][0, 1], tform['rotation'][0, 0])
             total_rot += rot
 
             #print rotation rate to console
@@ -199,18 +198,15 @@ while True:
 
         #plot rotation
         center = (vis.shape[1]/2,vis.shape[0]/2)
-
-
-
         x = 0
         x_step = vis.shape[1]/rotation_history_len
         rot_scale = 200
         prev_rot = 0
         #plot rotation line
-        cv2.line(vis,center, (center[0] + int(rot_scale*math.cos(-total_rot)),center[1] + int(rot_scale*math.sin(-total_rot))),(255,0,0))
+        cv2.line(vis,center, (center[0] + int(rot_scale*math.cos(-total_rot)),center[1] + int(rot_scale*math.sin(-total_rot))),(0, 255, 0))
         #plot rotation history
         for rot in rotation_track:
-            cv2.line(vis,(x,(int(prev_rot*rot_scale) + vis.shape[0]/2)), (x+x_step,int(rot*rot_scale) + vis.shape[0]/2),(0,0,255))
+            cv2.line(vis, (x, (int(prev_rot*rot_scale) + vis.shape[0]/2)), (x+x_step,int(rot*rot_scale) + vis.shape[0]/2), (0, 0, 255))
             prev_rot = rot
             x += x_step
 
@@ -227,7 +223,7 @@ while True:
 
     frame_idx += 1
     prev_gray = frame_gray
-    cv2.imshow('lk_track', vis)
+    cv2.imshow('flow rotation', vis)
 
     ch = cv2.waitKey(1)
     if ch == 27:
