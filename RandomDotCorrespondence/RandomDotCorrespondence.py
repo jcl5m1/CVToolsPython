@@ -8,7 +8,7 @@ matplotlib.use('Qt4Agg')
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from scipy.spatial import Delaunay
-
+import math
 import sys
 sys.path.append('../common/')
 import transformations as xform
@@ -17,21 +17,19 @@ from pylab import get_current_fig_manager
 
 
 plotsize = 5
+plotsize2 = 30
 neighbor_count = 3
-point_count = 10
+point_count = 50
 points = np.zeros((point_count, 2))
 fig = plt.figure(figsize=(14, 7))
 dotplot = fig.add_subplot(121, aspect='equal', autoscale_on=False, xlim=(-plotsize, plotsize), ylim=(-plotsize, plotsize))
-neighborplot = fig.add_subplot(122, aspect='equal', autoscale_on=False, xlim=(-plotsize, plotsize), ylim=(-plotsize, plotsize))
+neighborplot = fig.add_subplot(122, aspect='equal', autoscale_on=False, xlim=(0, plotsize2), ylim=(0, plotsize2))
 
-#Put figure window on top of all other windows
-#fig.canvas.manager.window.attributes('-topmost', 1)
-#After placing figure window on top, allow other windows to be on top of it later
-#fig.canvas.manager.window.attributes('-topmost', 0)
 
 point_edges, = dotplot.plot([])
-point_data, = dotplot.plot([], [], 'ro')
+point_data, = dotplot.plot([], [], 'bo')
 mouse_point_data, = dotplot.plot([], [], 'go')
+feature_point_data, = dotplot.plot([], [], 'ro')
 
 neighbor_edges, = neighborplot.plot([])
 neighbor_data, = neighborplot.plot([], [], 'ro')
@@ -46,10 +44,8 @@ point_text = dotplot.text(0.05, 0.05, 'text',
 
 def generateRandomPoints(points, scale):
     for p in points:
-        r = scale*(random.random() - 0.5)
-        theta = math.pi*2*(random.random() - 0.5)
-        p[0] = r*math.cos(theta)
-        p[1] = r*math.sin(theta)
+        p[0] = scale*(random.random() - 0.5)
+        p[1] = scale*(random.random() - 0.5)
     return points
 
 def generateRandomGridPoints(points, scale):
@@ -207,11 +203,9 @@ def CrossProductZ(a,b):
 
 def TriangleOrientation(a,b,c):
     v = CrossProductZ(a, b) + CrossProductZ(b, c) + CrossProductZ(c, a)
-    print v
     return v
 
 def ClockwiseSortQuad(quad_ids, points):
-
     a = points[quad_ids[0]]
     b = points[quad_ids[1]]
     c = points[quad_ids[2]]
@@ -219,26 +213,19 @@ def ClockwiseSortQuad(quad_ids, points):
 
     if (TriangleOrientation(a, b, c) < 0.0):
         if TriangleOrientation(a, c, d) < 0.0:
-            print "--"
             return quad_ids
         elif TriangleOrientation(a, b, d) < 0.0:
-            print "-+-"
             return [quad_ids[0], quad_ids[1], quad_ids[3], quad_ids[2]]
         else:
-            print "-++"
             return [quad_ids[3], quad_ids[1], quad_ids[2], quad_ids[0]]
 
     elif TriangleOrientation(a, c, d) < 0.0:
         if TriangleOrientation(a, b, d) < 0.0:
-            print "+--"
             return [quad_ids[0], quad_ids[2], quad_ids[1], quad_ids[3]]
         else:
-            print "+-+"
             return [quad_ids[1], quad_ids[0], quad_ids[2], quad_ids[3]]
     else:
-        print "++"
         return [quad_ids[2], quad_ids[1], quad_ids[0], quad_ids[3]]
-
 
 def counterClockwiseSortQuad(quad_ids, points):
 
@@ -251,7 +238,7 @@ def counterClockwiseSortQuad(quad_ids, points):
     triangle_ABD = (A[1]-B[1])*D[0] + (B[0]-A[0])*D[1] + (A[0]*B[1]-B[0]*A[1])
     triangle_ACD = (A[1]-C[1])*D[0] + (C[0]-A[0])*D[1] + (A[0]*C[1]-C[0]*A[1])
 
-    print triangle_ABC, triangle_ACD, triangle_ABD
+#    print triangle_ABC, triangle_ACD, triangle_ABD
 #    print triangle_ABC + triangle_ACD
 
     #   ABDC +-+
@@ -278,13 +265,46 @@ def counterClockwiseSortQuad(quad_ids, points):
 cid = fig.canvas.mpl_connect('button_press_event', onclick)
 cid = fig.canvas.mpl_connect('key_press_event', press)
 
-generateRandomGridPoints(points, 10)
+generateRandomPoints(points, 10)
 h = []
 pause = False
 step = False
 time = 0
 simplex_id = 0
 curr_triangle = 0
+
+
+def GetFeaturePoints(tri, quad):
+    feature_point_ids = []
+    indices, indptr = tri.vertex_neighbor_vertices
+    for p in quad:
+        for p2 in indptr[indices[p]:indices[p+1]]:
+            if (p2 not in quad) and (p2 not in feature_point_ids): #add this point to the feature set
+                feature_point_ids.append(p2)
+    return  feature_point_ids
+
+def GetDewarpedFeaturePoints(quad, feature_ids, points):
+    quad = ClockwiseSortQuad(quad, points)
+    pa = [points[quad[0]], points[quad[1]], points[quad[2]], points[quad[3]]]
+    pa = np.reshape(pa, (4, 2))
+
+    min_cube = -.5
+    max_cube = .5
+    pb = np.array([[min_cube, min_cube], [min_cube, max_cube], [max_cube, max_cube], [max_cube, min_cube]])
+
+    feature_points = []
+    for fp_id in feature_ids:
+        feature_points.append(points[fp_id])
+    h = find_homography(pa, pb)
+    b_points = apply_homography(h, feature_points)
+    for p in b_points:
+        theta = math.atan2(p[1], p[0])
+        m = math.log(p[1]*p[1] + p[0]*p[0])
+        #m = (p[1]*p[1] + p[0]*p[0])
+        p[0] = 3*m
+        p[1] = 4*theta
+    return b_points
+
 
 # animation function.  This is called sequentially
 def animate(t):
@@ -294,68 +314,46 @@ def animate(t):
         return
 
     step = False
-
-    time = time +1
+    time = time + 20
 
     transformed_points = randomizedTransform(points, time, .2)
     linedata, tri = generateDelaunyEdges(transformed_points)
 
     simplex_id = simplex_id % len(tri.simplices)
 
-    print "*****************"
-    quad = []
-    sister_simplex = -1
-    feature_points = []
-    for p in tri.simplices[simplex_id]:
-        quad.append(p)
+    img_data = np.zeros((plotsize2,plotsize2))
 
-    for n in tri.neighbors[simplex_id]:
-        if n == -1:  # no neighbor in this direction, skip
-            continue
-        for p in tri.simplices[n]: #for each point in neighbor triangle
-            if (p not in quad) and (len(quad) == 3): #if the point in new, add it
-                quad.append(p)
-                sister_simplex = n
-            if (p not in quad) and (len(quad) > 3): #add this point to the feature set
-                feature_points.append(p)
-
-    for n in tri.neighbors[sister_simplex]:
-        if n == -1:  # no neighbor in this direction, skip
-            continue
-        for p in tri.simplices[n]: #for each point in neighbor triangle
-            if (p not in quad) and (p not in feature_points): #add this point to the feature set
-                feature_points.append(p)
-
-
-
-#    print quad
-
-    quad = ClockwiseSortQuad(quad, transformed_points)
-    pa = [transformed_points[quad[0]], transformed_points[quad[1]], transformed_points[quad[2]], transformed_points[quad[3]]]
-    pa = np.reshape(pa, (4, 2))
-    pb = np.array([[0, 0], [0, 1], [1, 1], [1, 0]])
-#    pb = np.array([[0, 0], [1, 0], [1, 1], [0, 1]])
-
-
-    h = find_homography(pa, pb)
-    b_points = apply_homography(h, transformed_points)
-
-    print pa
-    print pb
-    print h
+    for s1 in range(len(tri.simplices)):
+        quad = tri.simplices[s1]
+        for s2 in tri.neighbors[s1]:
+            if s2 == -1:  # no neighbor in this direction, skip
+                continue
+            for p in tri.simplices[s2]: #for each point in neighbor triangle
+                if (p not in quad) and (len(quad) == 3): #if the point is new, add it
+                    quad = np.append(quad,p)
+#            print s1, s2, quad
+            feature_point_ids = GetFeaturePoints(tri, quad)
+            b_points = GetDewarpedFeaturePoints(quad, feature_point_ids, transformed_points)
+            for bp in b_points:
+                r = int(bp[0])+img_data.shape[0]/2
+                c = int(bp[1])+img_data.shape[1]/2
+                if (r < 0) or (r >= plotsize2):
+                    continue
+                if (c < 0) or (c >= plotsize2):
+                    continue
+                img_data[r,c] += 1
+    imgplot = plt.imshow(img_data)
 
 #    area1 = triangleArea(points[nearest_set[0, 0]],points[nearest_set[0, 1]],points[nearest_set[1, 1]])
-    point_text.set_text(str(quad) + '\n' + str(feature_points) + '\n' + str(h))
+#    point_text.set_text(str(quad) + '\n' + str(feature_point_ids) + '\n' + str(h))
 
-    mouse_point_data.set_data(pa[:, 0], pa[:, 1])
-#    mouse_point_data.set_data(mouse_pos[0], mouse_pos[1])
-#    neighbor_mouse_point.set_data(mb_point[0][0], mb_point[0][1])
+#    mouse_point_data.set_data(pa[:, 0], pa[:, 1])
 
+#    npts = np.array(neighbor_points)
+#    feature_point_data.set_data(npts[:, 0], npts[:, 1])
     point_edges.set_data(linedata[:, 0], linedata[:, 1])
     point_data.set_data(transformed_points[:, 0], transformed_points[:, 1])
 
-    neighbor_data.set_data(b_points[:, 0], b_points[:, 1])
-#    neighbor_edges.set_data(n_edges[:, 0], n_edges[:, 1])
 
     return point_data
 
