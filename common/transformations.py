@@ -216,6 +216,13 @@ def identity_matrix():
     """
     return numpy.identity(4)
 
+def perspectiveMatrix(cx=0, cy=0, fov=1):
+    projMatrix = numpy.identity(4)
+    projMatrix[2, 0] = -cx
+    projMatrix[2, 1] = -cy
+    projMatrix[2, 3] = fov
+    projMatrix[3, 3] = 0
+    return projMatrix
 
 def translation_matrix(direction):
     """Return matrix to translate by direction vector.
