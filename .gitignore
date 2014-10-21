@@ -72,3 +72,5 @@ PythonCameraCalibration/.idea/modules.xml
 PythonCameraCalibration/.idea/modules.xml
 *.iml
 *.iml
+
+*.ply
