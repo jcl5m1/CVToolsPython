@@ -83,7 +83,7 @@ while True:
   if pause:
     continue
 
-  ret ,img = cap.read()
+  ret ,img = cap.load()
   if ret == False:
       break
   

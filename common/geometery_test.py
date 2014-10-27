@@ -6,6 +6,8 @@ import matplotlib
 matplotlib.use('Qt4Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+import math
+import transformations as xforms
 import sys
 
 points = np.zeros((4, 2))
@@ -51,6 +53,29 @@ def runTest():
 def press(event):
     runTest()
 
-runTest()
-cid = fig.canvas.mpl_connect('key_press_event', press)
-plt.show()
+#runTest()
+#cid = fig.canvas.mpl_connect('key_press_event', press)
+#plt.show()
+
+m = np.identity(4)
+
+#m[2, 2] = 0
+#m[1, 2] = 1
+
+#m[1, 1] = 0
+#m[2, 1] = -1
+
+
+m[2, 2] = 0
+m[2, 1] = 1
+
+m[1, 1] = 0
+m[1, 2] = -1
+
+print m
+
+quaternion = xforms.quaternion_from_matrix(m)
+print quaternion
+
+print xforms.quaternion_matrix(quaternion)
+print math.sqrt(2.0)/2.0

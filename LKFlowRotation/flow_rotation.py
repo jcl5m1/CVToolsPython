@@ -156,7 +156,7 @@ frame_idx = 0
 prev_gray = 0
 total_rot = 0
 while True:
-    ret,frame = cap.read()
+    ret,frame = cap.load()
 
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     vis = frame.copy()
@@ -185,14 +185,14 @@ while True:
         cv2.polylines(vis, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
         if len(curr_pts) > 4:
             d,Z, tform = procrustes(np.array(prev_pts), np.array(curr_pts))
-            rot = math.atan2(tform['rotation'][0, 1], tform['rotation'][0, 0])
-            total_rot += rot
+            viewRotation = math.atan2(tform['rotation'][0, 1], tform['rotation'][0, 0])
+            total_rot += viewRotation
 
             #print rotation rate to console
-            print rot
+            print viewRotation
 
             #create a history for plotting
-            rotation_track.append(rot)
+            rotation_track.append(viewRotation)
             if len(rotation_track) > rotation_history_len:
                 del rotation_track[0]
 
@@ -205,9 +205,9 @@ while True:
         #plot rotation line
         cv2.line(vis,center, (center[0] + int(rot_scale*math.cos(-total_rot)),center[1] + int(rot_scale*math.sin(-total_rot))),(0, 255, 0))
         #plot rotation history
-        for rot in rotation_track:
-            cv2.line(vis, (x, (int(prev_rot*rot_scale) + vis.shape[0]/2)), (x+x_step,int(rot*rot_scale) + vis.shape[0]/2), (0, 0, 255))
-            prev_rot = rot
+        for viewRotation in rotation_track:
+            cv2.line(vis, (x, (int(prev_rot*rot_scale) + vis.shape[0]/2)), (x+x_step,int(viewRotation*rot_scale) + vis.shape[0]/2), (0, 0, 255))
+            prev_rot = viewRotation
             x += x_step
 
 
