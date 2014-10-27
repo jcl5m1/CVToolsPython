@@ -433,6 +433,7 @@ if __name__ == '__main__':
     parser.add_argument('-x', dest='xOffset', help='Horz offset for corner split')
     parser.add_argument('-c', nargs=4, dest='angle', help='Crop angles in degrees (minH, maxH, minV, maxV)')
     parser.add_argument('-test_wall', action="store_true", default=False, help='Synthetic Test Wall')
+    parser.add_argument('-no_vis', action="store_true", default=False, help='No visualization')
     results = parser.parse_args()
 
     np.set_printoptions(precision=3)
@@ -466,11 +467,14 @@ if __name__ == '__main__':
     myPly.computeAnalysis()
     myPly.printAnalyis()
 
-    glutInit()
-    glutInitWindowSize(800, 800)
-    glutCreateWindow("Ply Data")
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
-    glutDisplayFunc(displayFunc)
-    glutKeyboardFunc(keyboardFunc)
-    initPersectiveView()
-    glutMainLoop()
+    if not results.no_vis:
+        print " - press any key to toggle top down view"
+        print " - use host OS keyboard command to quit"
+        glutInit()
+        glutInitWindowSize(800, 800)
+        glutCreateWindow("Ply Data")
+        glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
+        glutDisplayFunc(displayFunc)
+        glutKeyboardFunc(keyboardFunc)
+        initPersectiveView()
+        glutMainLoop()
