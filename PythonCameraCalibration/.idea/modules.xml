@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../AngleMeasurement/.idea/AngleMeasurement.iml" filepath="$PROJECT_DIR$/../AngleMeasurement/.idea/AngleMeasurement.iml" />
       <module fileurl="file://$PROJECT_DIR$/../FisheyeDewarper/.idea/FisheyeDewarper.iml" filepath="$PROJECT_DIR$/../FisheyeDewarper/.idea/FisheyeDewarper.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PythonCameraCalibration.iml" filepath="$PROJECT_DIR$/.idea/PythonCameraCalibration.iml" />
       <module fileurl="file://$PROJECT_DIR$/../RandomDotCorrespondence/.idea/RandomDotCorrespondence.iml" filepath="$PROJECT_DIR$/../RandomDotCorrespondence/.idea/RandomDotCorrespondence.iml" />
       <module fileurl="file://$PROJECT_DIR$/../RicohTheta/.idea/RicohTheta.iml" filepath="$PROJECT_DIR$/../RicohTheta/.idea/RicohTheta.iml" />
       <module fileurl="file://$PROJECT_DIR$/../common/.idea/common.iml" filepath="$PROJECT_DIR$/../common/.idea/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../greycode/.idea/greycode.iml" filepath="$PROJECT_DIR$/../../greycode/.idea/greycode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../greycode2/.idea/greycode2.iml" filepath="$PROJECT_DIR$/../../greycode2/.idea/greycode2.iml" />
     </modules>
   </component>
 </project>
